@@ -1,8 +1,8 @@
 package pucflix.model;
 
-public class ActorsFile extends File 
+public class ActorFile extends File 
 {
-    public ActorsFile()
+    public ActorFile()
     {
         name = "Atores";
     }

@@ -9,17 +9,17 @@ import java.util.List;
 import pucflix.aeds3.EntidadeArquivo;
 import pucflix.entity.Show;
 
-public class Actors implements EntidadeArquivo {
+public class Actor implements EntidadeArquivo {
 
     private int id;
     private String name;
 
-    public Actors(int id, String name) {
+    public Actor(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Actors() {
+    public Actor() {
         this(-1, "");
     }
 
@@ -36,8 +36,8 @@ public class Actors implements EntidadeArquivo {
         this.id = id;
     }
 
-    public void setName(String nome) {
-        this.name = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public byte[] toByteArray() throws Exception {
