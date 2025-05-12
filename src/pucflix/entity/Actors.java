@@ -12,11 +12,11 @@ import pucflix.entity.Show;
 public class Actors implements EntidadeArquivo {
 
     private int id;
-    private String nome;
+    private String name;
 
-    public Actors(int id, String nome) {
+    public Actors(int id, String name) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
     }
 
     public Actors() {
@@ -28,23 +28,23 @@ public class Actors implements EntidadeArquivo {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
     public void setID(int id) {
         this.id = id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String nome) {
+        this.name = nome;
     }
 
     public byte[] toByteArray() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
         dos.writeInt(this.id);
-        dos.writeUTF(this.nome);
+        dos.writeUTF(this.name);
         return baos.toByteArray();
     }
 
@@ -52,6 +52,6 @@ public class Actors implements EntidadeArquivo {
         ByteArrayInputStream bais = new ByteArrayInputStream(b);
         DataInputStream dis = new DataInputStream(bais);
         this.id = dis.readInt();
-        this.nome = dis.readUTF();
+        this.name = dis.readUTF();
     }
 }
