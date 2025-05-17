@@ -11,7 +11,6 @@ public class EpisodeView extends View
     private EpisodeFile eFile; 
     private ShowFile sFile;
     private int showID;
-    private String name;
 
     public EpisodeView(Prompt prompt, EpisodeFile eFile, ShowFile sFile) throws Exception
     {

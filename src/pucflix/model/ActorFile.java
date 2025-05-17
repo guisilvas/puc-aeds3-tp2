@@ -1,7 +1,6 @@
 package pucflix.model;
 
 import pucflix.aeds3.Arquivo;
-import pucflix.aeds3.HashExtensivel;
 import pucflix.aeds3.ArvoreBMais;
 import pucflix.aeds3.ParIdId;
 import pucflix.entity.Actor;
@@ -17,18 +16,13 @@ public class ActorFile extends Arquivo<Actor> {
 
   public ActorFile() throws Exception {
 
-    super("episodes", Actor.class.getConstructor());
+    super("actors", Actor.class.getConstructor());
 
-    File directory = new File("./dados/ator");
-    if (!directory.exists()) {
-        directory.mkdirs(); 
-    }
+    nameIndex = new ArvoreBMais<>(
+        NameIdPair.class.getConstructor(), 4, "./dados/" + nomeEntidade + "/nameIndex.db");
 
-    nameIndex = new BPlusTree<>(
-      NameIdPair.class.getConstructor(), 5, "./dados/ator" + "indiceNome.db");
-
-    actorSeriesRelationIndex = new BPlusTree<>(
-      IdIdPair.class.getConstructor(), 5, "./dados/ator" + "/indiceRelacaoSerieAtor.db");
+    indiceRelacaoSerieAtor = new ArvoreBMais<>(
+        ParIdId.class.getConstructor(), 4, "./dados/" + nomeEntidade + "/showRelIndex.db");
   }
 
   @Override
@@ -36,27 +30,26 @@ public class ActorFile extends Arquivo<Actor> {
 
     int id = super.create(actor);
 
-    nameIndex.create(new NameIdPair(actor.getActorName(), id));
-
-    actorSeriesRelationIndex.create(new IdIdPair(actor.getSeriesID(), id));
+    nameIndex.create(new NameIdPair(actor.getName(), id));
 
     return id;
   }
 
   public Actor[] readByName(String name) throws Exception {
 
-    if(name.length() == 0) return null;
+    if (name.length() == 0)
+      return null;
 
     ArrayList<NameIdPair> pairs = nameIndex.read(new NameIdPair(name, -1));
 
-    if(!pairs.isEmpty()){
+    if (!pairs.isEmpty()) {
 
       Actor[] actors = new Actor[pairs.size()];
 
       int i = 0;
 
-      for(NameIdPair pair : pairs){
-        actors[i++] = read(pair.getId());
+      for (NameIdPair pair : pairs) {
+        actors[i++] = read(pair.getID());
       }
 
       return actors;
@@ -71,12 +64,11 @@ public class ActorFile extends Arquivo<Actor> {
 
     Actor actor = read(id);
 
-    if (actor != null){
+    if (actor != null) {
 
-      if(super.delete(id)){
+      if (super.delete(id)) {
 
-        return nameIndex.delete(new NameIdPair(actor.getActorName(), id)) &&
-               actorSeriesRelationIndex.delete(new IdIdPair(actor.getSeriesID(), id));
+        return nameIndex.delete(new NameIdPair(actor.getName(), id));
       }
     }
 
@@ -88,14 +80,14 @@ public class ActorFile extends Arquivo<Actor> {
 
     Actor currentActor = read(updatedActor.getID());
 
-    if(currentActor != null){
+    if (currentActor != null) {
 
-      if(super.update(updatedActor)){
+      if (super.update(updatedActor)) {
 
-        if(!currentActor.getActorName().equals(updatedActor.getActorName())){
+        if (!currentActor.getName().equals(updatedActor.getName())) {
 
-          nameIndex.delete(new NameIdPair(currentActor.getActorName(), currentActor.getID()));
-          nameIndex.create(new NameIdPair(updatedActor.getActorName(), updatedActor.getID()));
+          nameIndex.delete(new NameIdPair(currentActor.getName(), currentActor.getID()));
+          nameIndex.create(new NameIdPair(updatedActor.getName(), updatedActor.getID()));
 
         }
         return true;
@@ -104,9 +96,21 @@ public class ActorFile extends Arquivo<Actor> {
     return false;
   }
 
-  public Actor[] readBySeries(int seriesId) throws Exception {
+  public boolean addShow(int actorId, int showId) throws Exception {
+    return indiceRelacaoSerieAtor.create(new ParIdId(showId, actorId));
+  }
 
-    ArrayList<IdIdPair> pairs = actorSeriesRelationIndex.read(new IdIdPair(seriesId, -1));
+  public boolean removeShow(int actorId, int showId) throws Exception {
+    return indiceRelacaoSerieAtor.delete(new ParIdId(showId, actorId));
+  }
+
+  public boolean removeAllActors(int showId) throws Exception {
+    return indiceRelacaoSerieAtor.delete(new ParIdId(showId, -1));
+  }
+
+  public Actor[] readByShow(int showId) throws Exception {
+
+    ArrayList<ParIdId> pairs = indiceRelacaoSerieAtor.read(new ParIdId(showId, -1));
 
     if (pairs.isEmpty()) {
       return null;
@@ -115,7 +119,7 @@ public class ActorFile extends Arquivo<Actor> {
     Actor[] actors = new Actor[pairs.size()];
     int i = 0;
 
-    for (IdIdPair pair : pairs) {
+    for (ParIdId pair : pairs) {
       actors[i++] = read(pair.getId2());
     }
 

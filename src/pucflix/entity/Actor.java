@@ -5,9 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.List;
 import pucflix.aeds3.EntidadeArquivo;
-import pucflix.entity.Show;
 
 public class Actor implements EntidadeArquivo {
 
@@ -17,6 +15,10 @@ public class Actor implements EntidadeArquivo {
     public Actor(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Actor(String name) {
+        this(-1, name);
     }
 
     public Actor() {
@@ -53,5 +55,9 @@ public class Actor implements EntidadeArquivo {
         DataInputStream dis = new DataInputStream(bais);
         this.id = dis.readInt();
         this.name = dis.readUTF();
+    }
+
+    public String toString() {
+        return name;
     }
 }

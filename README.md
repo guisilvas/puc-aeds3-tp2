@@ -21,25 +21,29 @@ Representa o registro episódio. Contém os atributos, getters, setters e métod
 
 `Show`
 
-Representa o registro série. Assim como o episódio, contém atributos, getters e setters e métodos de conversão entre objeto e binário.
+Representa o registro série. Contém atributos, getters e setters e métodos de conversão entre objeto e binário.
+
+`Actor`
+
+Representa o registro ator. Contém os atributos, getters, setters e métodos para conversão entre objeto e binário.
 
 ### Modelo
 
 `ShowFile`
 
-Classe da camada de modelo para séries. Contém os métodos do CRUD e o índice para o par nome-id, que ajuda na busca por séries pelo nome.
-
-`ShowNameIdPair`
-
-Par nome-id da série, utilizada em uma árvore B+ para busca de séries pelo nome.
+Classe da camada de modelo para séries. Contém os métodos do CRUD tanto para a própria série quanto para o relacionamento entre série e ator, o índice para o par nome-id para busca por nome, e índice id-id para relacionamento com ator.
 
 `EpisodeFile`
 
 Classe da camada de modelo para episódios. Contém os métodos do CRUD e um método que recupera todos os episódios de uma série ordenados por temporada, além do índice nome-id para busca por nome e o índice id-id para busca por série.
 
-`EpisodeNameIdPair`
+`ActorFile`
 
-Par nome-id do episódio, utilizado em uma árvore B+ para busca de séries pelo nome.
+Clase da camada de modelo para atores. Contém os métodos CRUD tanto para o próprio ator quanto para o relacionamento entre ator e série, índice para o par nome-id para busca por nome, e índice id-id para relacionamento com série.
+
+`NameIdPair`
+
+Par nome-id genérico, utilizada em uma árvore B+ para busca de registros pelo nome.
 
 ### Visão
 
@@ -59,20 +63,24 @@ Classe da camada de visão da série, implementação concreta da `View`. Realiz
 
 Classe da camada de visão do episódio, implementação concreta da `View`. Realiza todo o pré-processamento para executar todas as operações do CRUD e exibe o resultado das operações na tela.
 
+`ActorView`
+
+Classe da camada de visão do ator, implementação concreta da `View`. Realiza todo o pré-processamento para executar todas as operações do CRUD e exibe o resultado das operações na tela.
+
 ## Experiência
 
-O grupo buscou implementar todos os requisitos do sistema de forma organizada e escalável, de forma que ficasse fácil entender o código e realizar correções e aprimoramentos. As implementações foram relativamente fáceis, principalmente com as implementações prontas disponíveis para uso. Mesmo assim, a implementação do relacionamento 1:N foi um pouco problemática na medida que foi necessário entender a classe `ParIdId` e quais operações do banco de dados necessitavam de alteração para manter a integridade do relacionamento no arquivo. De forma geral, os resultados foram alcançados, e o grupo acredita que implementou uma boa solução para o problema.
+O desafio desta etapa foi implementar o relacionamento N:N, o que não se mostrou particularmente difícil, já que, com base na experiência prévia com a árvore B+ e relacionamentos 1:N, já tínhamos uma ideia de como proceder. Tivemos, no entanto, certa dificuldade inicial para compreender a ordem correta dos identificadores no par id-id, tanto do lado do ator quanto da série, uma vez que essa ordem afeta diretamente o comportamento da árvore. Após compreendermos como deveria ser implementado, conseguimos completar com relativa facilidade, apenas redobrando a atenção para atender às restrições mais rigorosas de remoção, tanto do lado dos atores quanto do lado das séries.
 
-- [ ] As operações de inclusão, busca, alteração e exclusão de atores estão implementadas e funcionando corretamente?
-- [ ] O relacionamento entre séries e atores foi implementado com árvores B+ e funciona corretamente, assegurando a consistência entre as duas entidades?
-- [ ] É possível consultar quais são os atores de uma série?
-- [ ] É posssível consultar quais são as séries de um ator?
-- [ ] A remoção de séries remove os seus vínculos de atores?
-- [ ] A inclusão de um ator em uma série em um episódio se limita aos atores existentes?
-- [ ] A remoção de um ator checa se há alguma série vinculado a ele?
-- [ ] O trabalho está funcionando corretamente?
-- [ ] O trabalho está completo?
-- [ ] O trabalho é original e não a cópia de um trabalho de outro grupo?
+- [X] As operações de inclusão, busca, alteração e exclusão de atores estão implementadas e funcionando corretamente?
+- [X] O relacionamento entre séries e atores foi implementado com árvores B+ e funciona corretamente, assegurando a consistência entre as duas entidades?
+- [X] É possível consultar quais são os atores de uma série?
+- [X] É posssível consultar quais são as séries de um ator?
+- [X] A remoção de séries remove os seus vínculos de atores?
+- [X] A inclusão de um ator em uma série em um episódio se limita aos atores existentes?
+- [X] A remoção de um ator checa se há alguma série vinculado a ele?
+- [X] O trabalho está funcionando corretamente?
+- [X] O trabalho está completo?
+- [X] O trabalho é original e não a cópia de um trabalho de outro grupo?
 
 ## Compilação e execução
 Para compilar e executar o programa, utilize o script correspondente ao seu sistema operacional:
