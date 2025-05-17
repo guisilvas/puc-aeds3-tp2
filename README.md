@@ -71,16 +71,16 @@ Classe da camada de visão do ator, implementação concreta da `View`. Realiza 
 
 O desafio desta etapa foi implementar o relacionamento N:N, o que não se mostrou particularmente difícil, já que, com base na experiência prévia com a árvore B+ e relacionamentos 1:N, já tínhamos uma ideia de como proceder. Tivemos, no entanto, certa dificuldade inicial para compreender a ordem correta dos identificadores no par id-id, tanto do lado do ator quanto da série, uma vez que essa ordem afeta diretamente o comportamento da árvore. Após compreendermos como deveria ser implementado, conseguimos completar com relativa facilidade, apenas redobrando a atenção para atender às restrições mais rigorosas de remoção, tanto do lado dos atores quanto do lado das séries.
 
-- [X] As operações de inclusão, busca, alteração e exclusão de atores estão implementadas e funcionando corretamente?
-- [X] O relacionamento entre séries e atores foi implementado com árvores B+ e funciona corretamente, assegurando a consistência entre as duas entidades?
-- [X] É possível consultar quais são os atores de uma série?
-- [X] É posssível consultar quais são as séries de um ator?
-- [X] A remoção de séries remove os seus vínculos de atores?
-- [X] A inclusão de um ator em uma série em um episódio se limita aos atores existentes?
-- [X] A remoção de um ator checa se há alguma série vinculado a ele?
-- [X] O trabalho está funcionando corretamente?
-- [X] O trabalho está completo?
-- [X] O trabalho é original e não a cópia de um trabalho de outro grupo?
+- [X] As operações de inclusão, busca, alteração e exclusão de atores estão implementadas e funcionando corretamente? `SIM`
+- [X] O relacionamento entre séries e atores foi implementado com árvores B+ e funciona corretamente, assegurando a consistência entre as duas entidades? `SIM`
+- [X] É possível consultar quais são os atores de uma série? `SIM`
+- [X] É posssível consultar quais são as séries de um ator? `SIM`
+- [X] A remoção de séries remove os seus vínculos de atores? `SIM`
+- [X] A inclusão de um ator em uma série em um episódio se limita aos atores existentes? `SIM`
+- [X] A remoção de um ator checa se há alguma série vinculado a ele? `SIM`
+- [X] O trabalho está funcionando corretamente? `SIM`
+- [X] O trabalho está completo? `SIM`
+- [X] O trabalho é original e não a cópia de um trabalho de outro grupo? `SIM`
 
 ## Compilação e execução
 Para compilar e executar o programa, utilize o script correspondente ao seu sistema operacional:
